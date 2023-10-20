@@ -116,33 +116,44 @@ namespace DBEscuela
         }
         private void bunifuImageButton2_Click(object sender, EventArgs e)
         {
-            conexion.Open();
-            string baja = "DELETE FROM Escuela WHERE ID_Escuela = @ID_Escuela";
+            var confirmResult = MessageBox.Show("Tambien eliminara Estudiantes, Departamentos y Maestros ligados a esta Escuela!",
+                                     "Estas Seguro de Borrar esta Entrada ?",
+                                     MessageBoxButtons.YesNo);
+            if (confirmResult == DialogResult.Yes)
+            {
+                // If 'Yes', do something here.
+                conexion.Open();
+                string baja = "DELETE FROM Escuela WHERE ID_Escuela = @ID_Escuela";
 
-            SqlCommand comando = new SqlCommand(baja, conexion);
-            comando.Parameters.AddWithValue("ID_Escuela", TextBoxID_Escuela.Text);
+                SqlCommand comando = new SqlCommand(baja, conexion);
+                comando.Parameters.AddWithValue("ID_Escuela", TextBoxID_Escuela.Text);
 
-            comando.ExecuteNonQuery();
+                comando.ExecuteNonQuery();
 
-            comando.Dispose();
-            comando = null;
-            TextBoxID_Escuela.Clear();
-            TextBoxNombreEscuela.Clear();
-            TextBoxDireccionEscuela.Clear();
-            TextBoxTelefonoEscuela.Clear();
-            TextBoxCorreoEscuela.Clear();
-            TextBoxDirectorEscuela.Clear();
+                comando.Dispose();
+                comando = null;
+                TextBoxID_Escuela.Clear();
+                TextBoxNombreEscuela.Clear();
+                TextBoxDireccionEscuela.Clear();
+                TextBoxTelefonoEscuela.Clear();
+                TextBoxCorreoEscuela.Clear();
+                TextBoxDirectorEscuela.Clear();
 
-            conexion.Close();
-            MessageBox.Show("Escuela Eliminada");
-            DataGridConsultarEscuela();
-            CargarDropBoxEscuela();
-            CargarDropBoxDepartamento();
+                conexion.Close();
+                MessageBox.Show("Escuela Eliminada");
+                DataGridConsultarEscuela();
+                CargarDropBoxEscuela();
+                CargarDropBoxDepartamento();
+                DataGridConsultarDepartamento();
+                DataGridConsultarEstudiante();
+                DataGridConsultarMaestro();
+            }
+            
         }
         private void bunifuImageButton4_Click(object sender, EventArgs e)
         {
             conexion.Open();
-            SqlCommand comando = new SqlCommand("UPDATE Escuela SET ID_Escuela=@ID_Escuela, Nombre=@Nombre, Direccion=@Direccion, Telefono@Telefono,Correo=@Correo, Director=@Director WHERE ID_Escuela=@ID_Escuela", conexion);
+            SqlCommand comando = new SqlCommand("UPDATE Escuela SET ID_Escuela=@ID_Escuela, Nombre=@Nombre, Direccion=@Direccion, Telefono=@Telefono,Correo=@Correo, Director=@Director WHERE ID_Escuela=@ID_Escuela", conexion);
 
             comando.Parameters.AddWithValue("ID_Escuela", TextBoxID_Escuela.Text);
             comando.Parameters.AddWithValue("Nombre", TextBoxNombreEscuela.Text);
@@ -237,25 +248,31 @@ namespace DBEscuela
 
         private void bunifuImageButton11_Click(object sender, EventArgs e)
         {
-            conexion.Open();
-            string baja = "DELETE FROM Departamento WHERE ID_Departamento = @ID_Departamento";
+            var confirmResult = MessageBox.Show("Tambien eliminara los Maestros ligados a este Departamento!",
+                                     "Estas Seguro de Borrar esta Entrada ?",
+                                     MessageBoxButtons.YesNo);
+            if (confirmResult == DialogResult.Yes)
+            {
+                conexion.Open();
+                string baja = "DELETE FROM Departamento WHERE ID_Departamento = @ID_Departamento";
 
-            SqlCommand comando = new SqlCommand(baja, conexion);
-            comando.Parameters.AddWithValue("ID_Departamento", TextBoxID_Departamento.Text);
+                SqlCommand comando = new SqlCommand(baja, conexion);
+                comando.Parameters.AddWithValue("ID_Departamento", TextBoxID_Departamento.Text);
 
-            comando.ExecuteNonQuery();
+                comando.ExecuteNonQuery();
 
-            comando.Dispose();
-            comando = null;
-            TextBoxID_Departamento.Clear();
-            TextBoxNombreDepartamento.Clear();
-            TextBoxDescripcionDepartamento.Clear();
+                comando.Dispose();
+                comando = null;
+                TextBoxID_Departamento.Clear();
+                TextBoxNombreDepartamento.Clear();
+                TextBoxDescripcionDepartamento.Clear();
 
-            conexion.Close();
-            MessageBox.Show("Escuela Eliminada");
-            DataGridConsultarDepartamento();
-            CargarDropBoxDepartamento();
-            CargarDropBoxDepartamentoMaestro();
+                conexion.Close();
+                MessageBox.Show("Departamento Eliminado");
+                DataGridConsultarDepartamento();
+                CargarDropBoxDepartamento();
+                CargarDropBoxDepartamentoMaestro();
+            }
         }
 
         private void bunifuImageButton9_Click(object sender, EventArgs e)
@@ -280,6 +297,7 @@ namespace DBEscuela
         }
         //*****************************************************+**********************//
         //*****************************MODULO CARRERA******************************//
+        //**************************************************************************//
         private void DataGridConsultarCarrera()
         {
             conexion.Open();
@@ -322,10 +340,10 @@ namespace DBEscuela
 
         private void bunifuImageButton6_Click(object sender, EventArgs e)
         {
-            SqlCommand consulta = new SqlCommand("SELECT * FROM Carrera WHERE Carrera = @Carrera", conexion);
+            SqlCommand consulta = new SqlCommand("SELECT * FROM Carrera WHERE ID_Carrera = @ID_Carrera", conexion);
 
             conexion.Open();
-            consulta.Parameters.AddWithValue("Carrera", TextBoxID_Carrera.Text);
+            consulta.Parameters.AddWithValue("ID_Carrera", TextBoxID_Carrera.Text);
 
             SqlDataReader reader = consulta.ExecuteReader();
             while (reader.Read())
@@ -342,26 +360,35 @@ namespace DBEscuela
 
         private void bunifuImageButton7_Click(object sender, EventArgs e)
         {
-            conexion.Open();
-            string baja = "DELETE FROM Carrera WHERE ID_Carrera = @ID_Carrera";
+            var confirmResult = MessageBox.Show("Tambien eliminara las Materias ligados a esta Carrera!",
+                                     "Estas Seguro de Borrar esta Entrada ?",
+                                     MessageBoxButtons.YesNo);
+            if (confirmResult == DialogResult.Yes)
+            {
 
-            SqlCommand comando = new SqlCommand(baja, conexion);
-            comando.Parameters.AddWithValue("ID_Carrera", TextBoxID_Carrera.Text);
+                conexion.Open();
+                string baja = "DELETE FROM Carrera WHERE ID_Carrera = @ID_Carrera";
 
-            comando.ExecuteNonQuery();
+                SqlCommand comando = new SqlCommand(baja, conexion);
+                comando.Parameters.AddWithValue("ID_Carrera", TextBoxID_Carrera.Text);
 
-            comando.Dispose();
-            comando = null;
-            TextBoxID_Carrera.Clear();
-            TextBoxNombreCarrera.Clear();
-            TextBoxDescripcionCarrera.Clear();
-            TextBoxDuracionCarrera.Clear();
+                comando.ExecuteNonQuery();
 
-            conexion.Close();
-            MessageBox.Show("Carrera Eliminada");
-            DataGridConsultarCarrera();
-            CargarDropBoxCarrera();
-            CargarDropBoxIDCarrera();
+                comando.Dispose();
+                comando = null;
+                TextBoxID_Carrera.Clear();
+                TextBoxNombreCarrera.Clear();
+                TextBoxDescripcionCarrera.Clear();
+                TextBoxDuracionCarrera.Clear();
+
+                conexion.Close();
+                MessageBox.Show("Carrera Eliminada");
+                DataGridConsultarCarrera();
+                CargarDropBoxCarrera();
+                CargarDropBoxIDCarrera();
+                DataGridConsultarCarrera();
+                DataGridConsultarMateria();
+            }
         }
 
         private void bunifuImageButton5_Click(object sender, EventArgs e)
@@ -485,13 +512,13 @@ namespace DBEscuela
         private void bunifuImageButton13_Click(object sender, EventArgs e)
         {
             conexion.Open();
-            SqlCommand comando = new SqlCommand("UPDATE Materia SET ID_Matera=@ID_Materia, Nombre=@Nombre, Descripcion=@Descripcion, Creditos=@Creditos, ID_Carrera=@ID_Carrera, WHERE ID_Materia=@ID_Materia", conexion);
+            SqlCommand comando = new SqlCommand("UPDATE Materia SET ID_Materia=@ID_Materia, Nombre=@Nombre, Descripcion=@Descripcion, Creditos=@Creditos, ID_Carrera=@ID_Carrera WHERE ID_Materia=@ID_Materia", conexion);
 
             comando.Parameters.AddWithValue("ID_Materia", TextBoxID_Materia.Text);
             comando.Parameters.AddWithValue("Nombre", TextBoxNombreMateria.Text);
             comando.Parameters.AddWithValue("Descripcion", TextBoxDescripcionMateria.Text);
             comando.Parameters.AddWithValue("Creditos", TextBoxCreditosMateria.Text);
-            comando.Parameters.AddWithValue("ID_Materia", DropdownID_CarreraMateria.Text);
+            comando.Parameters.AddWithValue("ID_Carrera", DropdownID_CarreraMateria.Text);
             comando.ExecuteNonQuery();
 
             MessageBox.Show("Modificación Completa");
@@ -595,7 +622,7 @@ namespace DBEscuela
         private void bunifuImageButton17_Click(object sender, EventArgs e)
         {
             conexion.Open();
-            SqlCommand comando = new SqlCommand("UPDATE Maestro SET ID_Maestro=@ID_Maestro, Nombre=@Nombre, Apellido=@Apellido, Titulo=@Titulo, ID_Departamento=@ID_Departamento, WHERE ID_Maestro=@ID_Maestro", conexion);
+            SqlCommand comando = new SqlCommand("UPDATE Maestro SET ID_Maestro=@ID_Maestro, Nombre=@Nombre, Apellido=@Apellido, Titulo=@Titulo, ID_Departamento=@ID_Departamento WHERE ID_Maestro=@ID_Maestro", conexion);
 
             comando.Parameters.AddWithValue("ID_Maestro", TextBoxID_Maestro.Text);
             comando.Parameters.AddWithValue("Nombre", TextBoxNombreMaestro.Text);
