@@ -153,6 +153,16 @@ namespace DBEscuela.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Stanford_University_logo_PNG15 {
+            get {
+                object obj = ResourceManager.GetObject("Stanford_University_logo_PNG15", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Stanford_University_logo_PNG9 {
             get {
                 object obj = ResourceManager.GetObject("Stanford_University_logo_PNG9", resourceCulture);
